@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<div style="display: flex">
+    <form action="/get/response1" method="get" style="margin-right: 20px;">
+        <h3>Get 전송 ( required = true )</h3>
+        이름 : <input type="text" name="name">
+        <br>
+        <button type="submit">Get 전송</button>
+    </form>
+    <form action="/get/response2" method="get" style="margin-right: 20px;">
+        <h3>Get 전송 ( required = false )</h3>
+        <button type="submit">Get 전송</button>
+    </form>
+    <div style="margin-right: 20px;">
+        <h3>Get 전송 - ~/{value}</h3>
+        <a href="/get/response3/이름/나이">
+            get/response3/이름/나이
+        </a>
+    </div>
+    <div>
+        <h3>Get 전송 - ~/{value}</h3>
+        <a href="/get/response4/이름">
+            get/response4/이름
+        </a>
+    </div>
+</div>
+
+<hr>
+<form action="/post/response1" method="post" style="margin-right: 20px;">
+    <h3>Post 전송 ( required = true )</h3>
+    <input type="text" name="name">
+    <br>
+    <button type="submit">Post 전송</button>
+</form>
+<form action="/post/response2" method="post" style="margin-right: 20px;">
+    <h3>Post 전송 ( required = false )</h3>
+    <input type="text" name="name">
+    <br>
+    <button type="submit">Post 전송</button>
+</form>
+<form action="/post/response3" method="post" style="margin-right: 20px;">
+    <h3>Post 전송 ( ResponseBody )</h3>
+    <input type="text" name="name">
+    <br>
+    <button type="submit">Post 전송</button>
+</form>
+<hr>
+<h2>Post 실습 2</h2>
+<form action="/post/submit" method="post">
+    <label for="name">이름:</label><br>
+    <input type="text" id="name" name="name"><br><br>
+
+    <label for="gender">성별:</label><br>
+    <input type="radio" id="male" name="gender" value="남자">
+    <label for="male">남</label><br>
+    <input type="radio" id="female" name="gender" value="여자">
+    <label for="female">여</label><br>
+    <input type="radio" id="etc" name="gender" value="기타">
+    <label for="female">기타</label><br><br>
+
+    <label for="birthYear">생년월일:</label><br>
+    <select name="birthYear" id="birthYear">
+        <option value="">년도</option>
+    </select>
+
+    <select name="birthMonth" id="birthMonth">
+        <option value="">월</option>
+    </select>
+
+    <select name="birthDay" id="birthDay">
+        <option value="">일</option>
+    </select><br><br>
+
+    <script>
+        var birthYear = document.getElementById('birthYear');
+        var birthMonth = document.getElementById('birthMonth');
+        var birthDay = document.getElementById('birthDay');
+
+        // 년도 옵션 추가
+        for(var i=1950; i<=2024; i++) {
+            var option = document.createElement('option');
+            option.value = i;
+            option.text = i + '년';
+            birthYear.appendChild(option);
+        }
+
+        // 월 옵션 추가
+        for(var i=1; i<=12; i++) {
+            var option = document.createElement('option');
+            option.value = i;
+            option.text = i + '월';
+            birthMonth.appendChild(option);
+        }
+
+        // 일 옵션 추가
+        for(var i=1; i<=31; i++) {
+            var option = document.createElement('option');
+            option.value = i;
+            option.text = i + '일';
+            birthDay.appendChild(option);
+        }
+    </script>
+
+    <label for="interests">관심사:</label><br>
+    <input type="checkbox" id="interest1" name="interest" value="travel">
+    <label for="interest1">여행</label><br>
+    <input type="checkbox" id="interest2" name="interest" value="fashion">
+    <label for="interest2">패션</label><br>
+    <input type="checkbox" id="interest3" name="interest" value="food">
+    <label for="interest3">음식</label><br>
+
+    <input type="submit" value="회원가입">
+</form>
+<hr>
+<h2>DTO 이용하기</h2>
+<div style="display: flex">
+    <form action="/dto/response1" method="get" style="margin-right: 20px;">
+        <h3>Get - DTO</h3>
+        이름 : <input type="text" name="name">
+        <br>
+        나이 : <input type="text" name="age">
+        <br>
+        <button type="submit">GET 전송</button>
+    </form>
+    <form action="/dto/response11" method="get" style="margin-right: 20px;">
+        <h3>Get - DTO</h3>
+        이름 : <input type="text" name="name">
+        <br>
+        나이 : <input type="text" name="age">
+        <br>
+        <button type="submit">GET 전송 - RequestBody</button>
+    </form>
+    <form action="/dto/response111" method="get" style="margin-right: 20px;">
+        <h3>Get - DTO</h3>
+        이름 : <input type="text" name="name">
+        <br>
+        나이 : <input type="text" name="age">
+        <br>
+        <button type="submit">GET 전송 - ModelAttribute</button>
+    </form>
+    <form action="/dto/response2" method="post" style="margin-right: 20px;">
+        <h3>Post - DTO</h3>
+        이름 : <input type="text" name="name">
+        <br>
+        나이 : <input type="text" name="age">
+        <br>
+        <button type="submit">Post 전송 ( RequestBody x )</button>
+    </form>
+    <form action="/dto/response3" method="post" style="margin-right: 20px;">
+        <h3>Post - DTO</h3>
+        이름 : <input type="text" name="name">
+        <br>
+        나이 : <input type="text" name="age">
+        <br>
+        <button type="submit">Post 전송 ( RequestBody O )</button>
+    </form>
+    <form action="/dto/response4" method="post" style="margin-right: 20px;">
+        <h3>Post - DTO</h3>
+        이름 : <input type="text" name="name">
+        <br>
+        나이 : <input type="text" name="age">
+        <br>
+        <button type="submit">Post 전송 ( ModelAttribute O )</button>
+    </form>
+</div>
+
+<br>
+<hr>
+<h2>VO 이용하기</h2>
+<div style="display: flex">
+    <form action="/vo/response1" method="get" style="margin-right: 20px;">
+        <h3>Get - VO</h3>
+        이름 : <input type="text" name="name">
+        <br>
+        나이 : <input type="text" name="age">
+        <br>
+        <button type="submit">GET 전송</button>
+    </form>
+    <form action="/vo/response2" method="post" style="margin-right: 20px;">
+        <h3>Post - VO</h3>
+        이름 : <input type="text" name="name">
+        <br>
+        나이 : <input type="text" name="age">
+        <br>
+        <button type="submit">Post 전송 ( RequestBody x )</button>
+    </form>
+    <form action="/vo/response3" method="post" style="margin-right: 20px;">
+        <h3>Post - VO</h3>
+        이름 : <input type="text" name="name">
+        <br>
+        나이 : <input type="text" name="age">
+        <br>
+        <button type="submit">Post 전송 ( RequestBody O )</button>
+    </form>
+</div>
+
+<script>
+    function dtoResponse1() {
+        var form = document.getElementById('form_dto1');
+        axios.get(`/axios/response1?name=${form.name.value}&age=${form.age.value}`)
+        .then((res)=>{
+            console.log( res );
+            console.log( 'dtoResponse1 : ', res.data );
+        });
+    }
+    function dtoResponse2() {
+        var form = document.getElementById('form_dto1');
+        axios.get(`/axios/response2?name=${form.name.value}&age=${form.age.value}`)
+        .then((res)=>{
+            console.log( res );
+            console.log( 'dtoResponse2 : ', res.data );
+        });
+    }
+    function dtoResponse3() {
+        var form = document.getElementById('form_dto2');
+        axios.post(`/axios/response3`, {name: form.name.value, age: form.age.value})
+        .then((res)=>{
+            console.log( res );
+            console.log( 'dtoResponse3 : ', res.data );
+        });
+    }
+    function dtoResponse4() {
+        var form = document.getElementById('form_dto2');
+        axios.post(`/axios/response4`, {name: form.name.value, age: form.age.value})
+        .then((res)=>{
+            console.log( res );
+            console.log( 'dtoResponse1 : ', res.data );
+        });
+    }
+    function dtoResponse5() {
+        var form = document.getElementById('form_dto2');
+        axios.post(`/axios/response5`, {name: form.name.value, age: form.age.value})
+        .then((res)=>{
+            console.log( res );
+            console.log( 'dtoResponse5 : ', res.data );
+        });
+    }
+</script>
+
+<br>
+<hr>
+<h2>DTO 이용하기 - axios</h2>
+<div style="display: flex">
+    <form action="/axios/response1" method="get" style="margin-right: 20px;" id="form_dto1">
+        이름 : <input type="text" name="name">
+        <br>
+        나이 : <input type="text" name="age">
+        <br>
+        <button type="button" onclick="dtoResponse1();">GET ( 일반 ) - axios</button>
+        <button type="button" onclick="dtoResponse2();">Get ( DTO ) - axios</button>
+    </form>
+    <form action="/axios/response3" method="post" style="margin-right: 20px;" id="form_dto2">
+        <h3>Post ( 일반 ) - axios</h3>
+        이름 : <input type="text" name="name">
+        <br>
+        나이 : <input type="text" name="age">
+        <br>
+        <button type="button" onclick="dtoResponse3();">Post ( 일반 ) - axios</button>
+        <button type="button" onclick="dtoResponse4();">Post ( DTO ) - axios ( RequestBody X )</button>
+        <button type="button" onclick="dtoResponse5();">Post ( DTO ) - axios ( RequestBody O )</button>
+    </form>
+</div>
+
+
+<script>
+    function voResponse1() {
+        var form = document.getElementById('form_vo1');
+        axios.get(`/axios/vo/response1?name=${form.name.value}&age=${form.age.value}`)
+        .then((res)=>{
+            console.log( res );
+            console.log( 'dtoResponse1 : ', res.data );
+        });
+    }
+    function voResponse2() {
+        var form = document.getElementById('form_vo1');
+        axios.get(`/axios/vo/response2?name=${form.name.value}&age=${form.age.value}`)
+        .then((res)=>{
+            console.log( res );
+            console.log( 'voResponse2 : ', res.data );
+        });
+    }
+    function voResponse3() {
+        var form = document.getElementById('form_vo2');
+        axios.post(`/axios/vo/response3`, {name: form.name.value, age: form.age.value})
+        .then((res)=>{
+            console.log( res );
+            console.log( 'voResponse3 : ', res.data );
+        });
+    }
+    function voResponse4() {
+        var form = document.getElementById('form_vo2');
+        axios.post(`/axios/vo/response4`, {name: form.name.value, age: form.age.value})
+        .then((res)=>{
+            console.log( res );
+            console.log( 'voResponse4 : ', res.data );
+        });
+    }
+    function voResponse5() {
+        var form = document.getElementById('form_vo2');
+        axios.post(`/axios/vo/response5`, {name: form.name.value, age: form.age.value})
+        .then((res)=>{
+            console.log( res );
+            console.log( 'voResponse5 : ', res.data  );
+        });
+    }
+</script>
+
+<br>
+<hr>
+<h2>VO 이용하기 - axios</h2>
+<div style="display: flex">
+    <form id="form_vo1" style="margin-right: 20px;">
+        <h3>Get ( 일반 ) - axios</h3>
+        이름 : <input type="text" name="name">
+        <br>
+        나이 : <input type="text" name="age">
+        <br>
+        <button type="button" onclick="voResponse1();">GET ( 일반 ) - axios</button>
+        <button type="button" onclick="voResponse2();">Get ( VO ) - axios</button>다시 오신 것을 환영합니다. 새로운 기능을 살펴보세요.
+        최상의 검색 환경을 위한 설정을 시작해 보겠습
+    </form>
+    <form id="form_vo2" style="margin-right: 20px;">
+        <h3>Post ( 일반 ) - axios</h3>
+        이름 : <input type="text" name="name">
+        <br>
+        나이 : <input type="text" name="age">
+        <br>
+        <button type="button" onclick="voResponse3();">Post ( 일반 ) - axios</button>
+        <button type="button" onclick="voResponse4();">Post ( VO ) - axios ( RequestBody X )</button>
+        <button type="button" onclick="voResponse5();">Post ( VO ) - axios ( RequestBody O )</button>
+    </form>
+
+
+</div>
+<br>
+<hr>
+<h2>Axios를 이용해 동적폼전송 구현하기 실습 </h2>
+<form id="myForm">
+    <label for="name">이름:</label><br>
+    <input type="text" id="name" name="name"><br><br>
+
+    <label for="gender">성별:</label><br>
+    <input type="radio" id="male" name="gender" value="남자">
+    <label for="male">남</label><br>
+    <input type="radio" id="female" name="gender" value="여자">
+    <label for="female">여</label><br>
+    <input type="radio" id="etc" name="gender" value="기타">
+    <label for="female">기타</label><br><br>
+
+    <label for="birthYear2">생년월일:왜안됨</label><br>
+    <select name="birthYear2" id="birthYear2">
+        <option value="">년도</option>
+    </select>
+
+    <select name="birthMonth2" id="birthMonth2">
+        <option value="">월</option>
+    </select>
+
+    <select name="birthDay2" id="birthDay2">
+        <option value="">일</option>
+    </select><br><br>
+
+    <label for="interests">관심사:</label><br>
+    <input type="checkbox" id="interest1" name="interest" value="travel">
+    <label for="interest1">여행</label><br>
+    <input type="checkbox" id="interest2" name="interest" value="fashion">
+    <label for="interest2">패션</label><br>
+    <input type="checkbox" id="interest3" name="interest" value="food">
+    <label for="interest3">음식</label><br>
+
+    <button type="button" onclick="voResponse6()">회원가입</button>
+</form>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    // 폼 제출 함수
+function voResponse6() {
+    var form = document.getElementById('myForm');
+    var formData = new FormData(form);
+    var object = {};
+    formData.forEach(function(value, key){
+        // 'interest' 필드를 배열로 변환
+        if (key === 'interest') {
+            if (!object[key]) {
+                object[key] = [];
+            }
+            object[key].push(value);
+        } else {
+            object[key] = value;
+        }
+    });
+
+    axios.post('/axios/vo/response6', object, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(function (response) {
+         console.log('회원가입 성공: ', response);
+    })
+    .catch(function (error) {
+        console.log(error);
+    });
+}
+// 페이지가 로드되면 실행
+window.onload = function() {
+// 년도, 월, 일 선택 태그 선택
+var yearSelect2 = document.getElementById('birthYear2');
+var monthSelect2 = document.getElementById('birthMonth2');
+var daySelect2 = document.getElementById('birthDay2');
+
+// 현재 년도 얻기
+var currentYear = new Date().getFullYear();
+
+// 년도 옵션 생성 (1960년 ~ 현재년도)
+for (var y = 1960; y <= currentYear; y++) {
+var yearOption2 = document.createElement('option');
+yearOption2.value = y;
+yearOption2.text = y;
+yearSelect2.appendChild(yearOption2);
+}
+
+// 월 옵션 생성 (1월 ~ 12월)
+for (var m = 1; m <= 12; m++) {
+var monthOption2 = document.createElement('option');
+monthOption2.value = m;
+monthOption2.text = m;
+monthSelect2.appendChild(monthOption2);
+}
+
+// 일 옵션 생성 (1일 ~ 31일)
+for (var d = 1; d <= 31; d++) {
+var dayOption2 = document.createElement('option');
+dayOption2.value = d;
+dayOption2.text = d;
+daySelect2.appendChild(dayOption2);
+}
+
+// 회원가입 버튼에 클릭 이벤트 추가
+document.querySelector('button').addEventListener('click', voResponse6);
+}
+</script>
+</body>
+</html>
