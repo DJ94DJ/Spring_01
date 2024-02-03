@@ -9,6 +9,8 @@
 검색어가 없으면 전체 게시글이 몇 개인지 가져온다.-->
 <!--    writeBoard() 제목, 내용, 작성자를 입력하고 "작성"버튼 눌렀을 때-->
     <script>
+
+
         function searchBoard() {
 
             var form = document.getElementById('form_search');
@@ -26,7 +28,8 @@
                 writer: form.writer.value,
             };
 
-            axios.post(`/board`, data).then((res) => {
+            axios.post(`/Pj01/board`, data).then((res) => {
+
                 location.reload();
             });
         }
@@ -38,12 +41,12 @@
                 content: form.content.value,
                 writer: form.writer.value,
             };
-            axios.patch(`/board`, data).then((res) => {
+            axios.patch(`/Pj01/board`, data).then((res) => {
                 location.reload();
             });
         }
         function deleteBoard(id) {
-            axios.delete(`/board?id=${id}`).then((res) => {
+            axios.delete(`/Pj01/board?id=${id}`).then((res) => {
                 location.reload();
             });
         }

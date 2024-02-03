@@ -26,5 +26,14 @@ public class BoardWebController {
         return "PJ01_board";
     }
 
+    // 게시글 작성을 위한 핸들러 추가
+    @PostMapping("/board")
+    public String createPost(@RequestBody BoardDTO boardDto) {
+        boardService.createPost(boardDto.getTitle(), boardDto.getContent(), boardDto.getWriter());
+        return "redirect:/Pj01/board";
+    }
+
+
+
 
 }
