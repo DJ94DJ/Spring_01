@@ -1,4 +1,5 @@
-package com.sesac.sesac.spring.controller.dto;
+package com.sesac.sesac.spring.study.controller.dto;
+
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,5 +8,5 @@ import lombok.Setter;
 @Setter
 public class UserDTO {
     private String name;
-    private String age;
+    private String nickname;
 }

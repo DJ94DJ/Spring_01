@@ -1,4 +1,4 @@
-package com.sesac.sesac.spring.controller.vo;
+package com.sesac.sesac.spring.api.controller.vo;
 import lombok.Getter;
 import java.util.List;
 
