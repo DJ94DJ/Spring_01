@@ -1,26 +1,39 @@
+<!-- board.html -->
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
     <title>게시판</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
-<!--    searchBoard() 검색어가 있으면 일치하는 제목의 개수를 가져오고,
-검색어가 없으면 전체 게시글이 몇 개인지 가져온다.-->
-<!--    writeBoard() 제목, 내용, 작성자를 입력하고 "작성"버튼 눌렀을 때-->
     <script>
-
-
         function searchBoard() {
-
+            // 검색어가 있으면 일치하는 제목의 개수를 가져오고
+            // 검색어가 없으면 전체 게시글이 몇 개인지 가져온다.
             var form = document.getElementById('form_search');
-            axios.get(`/board/search?word=${form.word.value}`).then((res) => {
+            axios.get(`/board/mybatis/search?word=${form.word.value}`).then((res) => {
                 alert('일치하는 제목의 게시글은 ' + res.data + '개 입니다.');
+                var posts = res.data;
+                var table = document.getElementById('board_table');
+                table.innerHTML = '';
+
+                // 검색 결과를 테이블에 추가하기 (미완)
+                    for(var i=0; i<posts.length; i++) {
+                    var row = table.insertRow(-1); // 새로운 행 추가
+                    row.insertCell(0).innerHTML = posts[i].no;
+                    row.insertCell(1).innerHTML = posts[i].BoardId;
+                    row.insertCell(2).innerHTML = posts[i].title;
+                    row.insertCell(3).innerHTML = posts[i].writer;
+                    row.insertCell(4).innerHTML = posts[i].registered;
+                    row.insertCell(5).innerHTML = '<button onclick="editBoard(' + posts[i].BoardId + ')">수정</button>';
+                    row.insertCell(6).innerHTML = '<button onclick="deleteBoard(' + posts[i].BoardId + ')">삭제</button>';
+                }
             });
+
+
         }
 
         function writeBoard() {
-
+            // 제목, 내용, 작성자를 입력하고 "작성"버튼 눌렀을 때
             var form = document.getElementById('form_board');
             var data = {
                 title: form.title.value,
@@ -28,28 +41,29 @@
                 writer: form.writer.value,
             };
 
-            axios.post(`/Pj01/board`, data).then((res) => {
-
+            axios.post(`/board/mybatis`, data).then((res) => {
                 location.reload();
             });
         }
         function editBoard(id) {
             var form = document.getElementById('form_board');
             var data = {
-                id,
+                boardId: id,
                 title: form.title.value,
                 content: form.content.value,
                 writer: form.writer.value,
             };
-            axios.patch(`/Pj01/board`, data).then((res) => {
+            axios.patch(`/board/mybatis`, data).then((res) => {
                 location.reload();
             });
         }
         function deleteBoard(id) {
-            axios.delete(`/Pj01/board?id=${id}`).then((res) => {
+            axios.delete(`/board/mybatis?id=${id}`).then((res) => {
                 location.reload();
             });
         }
+
+
     </script>
 </head>
 <body>
@@ -67,7 +81,7 @@
         작성
     </button>
 </form>
-<table border="1">
+<table id="board_table" border="1">
     <tr>
         <th>No.</th>
         <th>ID</th>
@@ -78,6 +92,17 @@
         <th>삭제</th>
     </tr>
     <!--    타임리프 문법 이용해서 게시판 글 보여주기 -->
+    <tr th:each="post:${posts}">
+        <td th:text="${post.getNo()}">번호</td>
+        <td th:text="${post.getBoardId()}">ID</td>
+        <td th:text="${post.getTitle()}">제목</td>
+        <td th:text="${post.getWriter()}">작성자</td>
+        <td th:text="${post.getRegistered()}">작성일</td>
+
+<!--        타임리프 문법 : th: 앞에서 적고.. 자바스크립트 변수 사용하기 위해선 대괄호 2개***-->
+        <td><button th:onclick="editBoard([[${post.getBoardId()}]])">수정</button></td>
+        <td><button th:onclick="deleteBoard([[${post.getBoardId()}]])">삭제</button></td>
+    </tr>
 </table>
 </body>
 </html>

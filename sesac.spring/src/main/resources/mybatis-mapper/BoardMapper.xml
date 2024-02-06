@@ -3,12 +3,38 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.sesac.sesac.spring.mapper.BoardMapper">
-    <select id="getAllBoards" resultType="com.sesac.sesac.spring.dto.BoardDTO">
+    <select id="getAllBoards" resultType="com.sesac.sesac.spring.domain.Board">
         SELECT * FROM board
+<!--        보드 전체를 검색해오기-->
     </select>
 
-    <insert id="createPost">
+    <insert id="insertBoard" parameterType="com.sesac.sesac.spring.domain.Board">
+        <!--        타입에 map 을 쓰면 알아서 찾아간다. 파라미터는 단 한개밖에 못보내기 때문에 객체로 싸서 보내야 한다.-->
         INSERT INTO board(title, content, writer)
-        VALUES (#{title}, #{content}, #{writer})
+        VALUES(#{title}, #{content}, #{writer})
     </insert>
+
+    <update id="patchBoard" parameterType="com.sesac.sesac.spring.domain.Board">
+        UPDATE board SET title=#{title}, content=#{content}, writer=#{writer}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteBoard" parameterType="Integer">
+        DELETE FROM board WHERE id=#{id}
+    </delete>
+
+    <select id="searchBoard" parameterType="String" resultType="com.sesac.sesac.spring.domain.Board">
+<!--        동적쿼리 생성-->
+<!--        조건 1 검색어 없을시 전체검색  SELECT * FROM board -->
+<!--        조건2 검색어가 없으면 검색어와 제목이 일치하는것-(wh) SELECT * FROM board WHERE title=#{word} -->
+        SELECT * FROM board
+        <where>
+            <if test="word != ''">
+                AND title = #{word}
+<!--                빈문자열이 아니면 작동-->
+            </if>
+        </where>
+    </select>
+
+
 </mapper>
