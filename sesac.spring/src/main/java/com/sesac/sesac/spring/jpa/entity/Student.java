@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+//import lombok.Setter;
 import lombok.NoArgsConstructor;
 // : 데이터베이스의 필드와 변수의 연관관계가 정의된 친구
 // : db 테이블에 대응되는 하나의 클래스
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Entity  // class student() {} // 빈 객체(생성자)가 필수로 필요함.
 @NoArgsConstructor // 빈거 만들어주는거
 @Getter
+//@Setter
 @Builder // 그러나 빌더는 필드가 전체 다 들어 있는 생성자가 필요함. // 서로 충돌함. 그래서 누가 뭐쓸지 알려줘야 오류가 안남! 500
 @AllArgsConstructor // 다들어있는 생성자.
 @Table(name= "STUDENT")
@@ -24,6 +26,7 @@ public class Student {
     // id int primary key auto_increment
     // SEQUENCE : 새로운 오브젝트를 만들어서 id를 부여하는 방법 (mysql x)
     // TABLE : 시퀸스 전략을 흉내낸 전략 -> 모든 DBMS에서 사용가능 (성능은 떨어짐)
+
     @Column (name = "name", nullable = false, length = 20)
     private String name;
     // name varchar (20) not null,
@@ -34,6 +37,8 @@ public class Student {
     @Column
     @Enumerated(EnumType.STRING)
     private LoginType type;
+
+
 
     public enum LoginType {
         GOOGLE, KAKAO
